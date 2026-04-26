@@ -168,3 +168,47 @@
     color: var(--color-foreground);
   }
 }
+
+@layer utilities {
+  .bg-grid {
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .text-glow-danger { text-shadow: 0 0 12px oklch(0.65 0.27 25 / 0.8); }
+  .text-glow-safe { text-shadow: 0 0 12px oklch(0.7 0.2 145 / 0.7); }
+  .text-glow-cyber { text-shadow: 0 0 12px oklch(0.78 0.18 200 / 0.7); }
+  .shadow-glow-danger { box-shadow: var(--shadow-glow-danger); }
+  .shadow-glow-safe { box-shadow: var(--shadow-glow-safe); }
+  .shadow-glow-cyber { box-shadow: var(--shadow-glow-cyber); }
+  .gradient-cyber { background: var(--gradient-cyber); }
+  .gradient-danger { background: var(--gradient-danger); }
+  .gradient-safe { background: var(--gradient-safe); }
+  .gradient-primary-soft { background: var(--gradient-primary); }
+}
+
+@keyframes pulse-danger {
+  0%, 100% { box-shadow: 0 0 0 0 oklch(0.65 0.27 25 / 0.7), var(--shadow-glow-danger); }
+  50% { box-shadow: 0 0 0 12px oklch(0.65 0.27 25 / 0), var(--shadow-glow-danger); }
+}
+.animate-pulse-danger { animation: pulse-danger 2s ease-in-out infinite; }
+
+@keyframes blink-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+.animate-blink { animation: blink-dot 1.4s ease-in-out infinite; }
+
+@keyframes scan-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+.animate-scan::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent, oklch(0.78 0.18 200 / 0.08), transparent);
+  animation: scan-line 4s linear infinite;
+  pointer-events: none;
+}
