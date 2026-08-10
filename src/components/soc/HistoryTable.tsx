@@ -10,7 +10,13 @@ import {
 import type { Prediction } from "@/lib/predictions";
 import { isAttack, formatTime } from "@/lib/predictions";
 
-export function HistoryTable({ predictions }: { predictions: Prediction[] }) {
+export function HistoryTable({
+  predictions,
+  activeModelName = "CNN-LSTM",
+}: {
+  predictions: Prediction[];
+  activeModelName?: string;
+}) {
   return (
     <Card className="border-border/60 gradient-cyber overflow-hidden">
       <div className="px-5 py-4 border-b border-border/60 flex items-center justify-between">
@@ -50,9 +56,13 @@ export function HistoryTable({ predictions }: { predictions: Prediction[] }) {
                   }`}
                 >
                   <TableCell className="font-mono text-xs">{formatTime(p)}</TableCell>
+                  <TableCell className="font-mono text-xs">
+                    {p.model_name ?? activeModelName}
+                  </TableCell>
                   <TableCell className="font-mono text-xs">{p.source_ip}</TableCell>
                   <TableCell className="font-mono text-xs">{p.destination_ip}</TableCell>
                   <TableCell className="font-mono text-xs">{p.protocol}</TableCell>
+
                   <TableCell>
                     <span
                       className={`inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-xs font-bold ${
