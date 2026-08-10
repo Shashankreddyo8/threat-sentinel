@@ -10,7 +10,13 @@ import {
 import type { Prediction } from "@/lib/predictions";
 import { isAttack, formatTime } from "@/lib/predictions";
 
-export function HistoryTable({ predictions }: { predictions: Prediction[] }) {
+export function HistoryTable({
+  predictions,
+  activeModelName = "CNN-LSTM",
+}: {
+  predictions: Prediction[];
+  activeModelName?: string;
+}) {
   return (
     <Card className="border-border/60 gradient-cyber overflow-hidden">
       <div className="px-5 py-4 border-b border-border/60 flex items-center justify-between">
@@ -26,12 +32,15 @@ export function HistoryTable({ predictions }: { predictions: Prediction[] }) {
           <TableHeader className="sticky top-0 bg-card/95 backdrop-blur z-10">
             <TableRow className="border-border/60 hover:bg-transparent">
               <TableHead className="text-[10px] uppercase tracking-widest">Time</TableHead>
+              <TableHead className="text-[10px] uppercase tracking-widest">Model</TableHead>
               <TableHead className="text-[10px] uppercase tracking-widest">Source IP</TableHead>
               <TableHead className="text-[10px] uppercase tracking-widest">Destination IP</TableHead>
               <TableHead className="text-[10px] uppercase tracking-widest">Protocol</TableHead>
               <TableHead className="text-[10px] uppercase tracking-widest">Prediction</TableHead>
+              <TableHead className="text-[10px] uppercase tracking-widest">Attack Type</TableHead>
               <TableHead className="text-[10px] uppercase tracking-widest">Confidence</TableHead>
               <TableHead className="text-[10px] uppercase tracking-widest">Status</TableHead>
+
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -47,9 +56,13 @@ export function HistoryTable({ predictions }: { predictions: Prediction[] }) {
                   }`}
                 >
                   <TableCell className="font-mono text-xs">{formatTime(p)}</TableCell>
+                  <TableCell className="font-mono text-xs">
+                    {p.model_name ?? activeModelName}
+                  </TableCell>
                   <TableCell className="font-mono text-xs">{p.source_ip}</TableCell>
                   <TableCell className="font-mono text-xs">{p.destination_ip}</TableCell>
                   <TableCell className="font-mono text-xs">{p.protocol}</TableCell>
+
                   <TableCell>
                     <span
                       className={`inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-xs font-bold ${
@@ -66,6 +79,9 @@ export function HistoryTable({ predictions }: { predictions: Prediction[] }) {
                       {p.prediction}
                     </span>
                   </TableCell>
+                  <TableCell className="text-xs">
+                    {p.attack_type ?? (attack ? p.status : "—")}
+                  </TableCell>
                   <TableCell className="font-mono text-xs">
                     {(p.confidence_score * 100).toFixed(2)}%
                   </TableCell>
@@ -75,7 +91,8 @@ export function HistoryTable({ predictions }: { predictions: Prediction[] }) {
             })}
             {predictions.length === 0 && (
               <TableRow>
-                <TableCell colSpan={7} className="text-center text-muted-foreground py-8">
+                <TableCell colSpan={9} className="text-center text-muted-foreground py-8">
+
                   No predictions yet.
                 </TableCell>
               </TableRow>

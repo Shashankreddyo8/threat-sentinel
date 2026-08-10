@@ -8,7 +8,12 @@ export interface Prediction {
   prediction: string;
   confidence_score: number;
   status: string;
+  /** Optional — populated once multi-model records are written to Xano. */
+  model_name?: string;
+  /** Optional — specific attack class (DDoS, Botnet, ...) when available. */
+  attack_type?: string;
 }
+
 
 const API_URL = "https://x8ki-letl-twmt.n7.xano.io/api:Qnw6FEMs/predictions";
 

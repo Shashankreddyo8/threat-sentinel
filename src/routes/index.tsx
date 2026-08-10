@@ -7,6 +7,9 @@ import { AlertBanner } from "@/components/soc/AlertBanner";
 import { LivePrediction } from "@/components/soc/LivePrediction";
 import { Charts } from "@/components/soc/Charts";
 import { HistoryTable } from "@/components/soc/HistoryTable";
+import { ModelComparison } from "@/components/soc/ModelComparison";
+import { PRIMARY_MODEL_ID, getModel, type ModelId } from "@/lib/models";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -27,6 +30,8 @@ function Dashboard() {
   const [isLive, setIsLive] = useState(false);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [selectedModel, setSelectedModel] = useState<ModelId>(PRIMARY_MODEL_ID);
+
 
   useEffect(() => {
     let cancelled = false;
@@ -69,7 +74,15 @@ function Dashboard() {
         <SummaryCards predictions={predictions} />
         <LivePrediction latest={latest} />
         <Charts predictions={predictions} />
-        <HistoryTable predictions={predictions} />
+        <ModelComparison
+          selectedModel={selectedModel}
+          onSelectModel={setSelectedModel}
+        />
+        <HistoryTable
+          predictions={predictions}
+          activeModelName={getModel(selectedModel).name}
+        />
+
         <footer className="text-center text-xs text-muted-foreground pt-4 pb-2 font-mono">
           Final Year Project · Hybrid CNN + LSTM IoT Malware Detection System
         </footer>
