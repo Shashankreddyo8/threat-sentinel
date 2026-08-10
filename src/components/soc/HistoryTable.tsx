@@ -26,12 +26,15 @@ export function HistoryTable({ predictions }: { predictions: Prediction[] }) {
           <TableHeader className="sticky top-0 bg-card/95 backdrop-blur z-10">
             <TableRow className="border-border/60 hover:bg-transparent">
               <TableHead className="text-[10px] uppercase tracking-widest">Time</TableHead>
+              <TableHead className="text-[10px] uppercase tracking-widest">Model</TableHead>
               <TableHead className="text-[10px] uppercase tracking-widest">Source IP</TableHead>
               <TableHead className="text-[10px] uppercase tracking-widest">Destination IP</TableHead>
               <TableHead className="text-[10px] uppercase tracking-widest">Protocol</TableHead>
               <TableHead className="text-[10px] uppercase tracking-widest">Prediction</TableHead>
+              <TableHead className="text-[10px] uppercase tracking-widest">Attack Type</TableHead>
               <TableHead className="text-[10px] uppercase tracking-widest">Confidence</TableHead>
               <TableHead className="text-[10px] uppercase tracking-widest">Status</TableHead>
+
             </TableRow>
           </TableHeader>
           <TableBody>
