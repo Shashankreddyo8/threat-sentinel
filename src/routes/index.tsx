@@ -7,6 +7,9 @@ import { AlertBanner } from "@/components/soc/AlertBanner";
 import { LivePrediction } from "@/components/soc/LivePrediction";
 import { Charts } from "@/components/soc/Charts";
 import { HistoryTable } from "@/components/soc/HistoryTable";
+import { ModelComparison } from "@/components/soc/ModelComparison";
+import { PRIMARY_MODEL_ID, getModel, type ModelId } from "@/lib/models";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
