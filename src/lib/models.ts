@@ -123,7 +123,7 @@ export async function fetchModelMetrics(): Promise<ModelMetrics[]> {
     const data: ModelMetrics[] = await res.json();
     return data.map((m) => ({ ...m, source: "api" as const }));
   } catch {
-    return PLACEHOLDER_METRICS;
+    return EVALUATED_METRICS;
   }
 }
 
