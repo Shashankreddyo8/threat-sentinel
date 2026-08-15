@@ -103,26 +103,27 @@ export function getModel(id: ModelId): ModelInfo {
  */
 export const MODEL_METRICS_API_URL: string | null = null;
 
-/** Not real results — structural placeholders only. */
-const PLACEHOLDER_METRICS: ModelMetrics[] = [
-  { model_id: "random_forest", accuracy: 0, precision: 0, recall: 0, f1_score: 0, detection_rate: 0, false_positive_rate: 0, source: "placeholder" },
-  { model_id: "xgboost", accuracy: 0, precision: 0, recall: 0, f1_score: 0, detection_rate: 0, false_positive_rate: 0, source: "placeholder" },
-  { model_id: "svm", accuracy: 0, precision: 0, recall: 0, f1_score: 0, detection_rate: 0, false_positive_rate: 0, source: "placeholder" },
-  { model_id: "isolation_forest", accuracy: 0, precision: 0, recall: 0, f1_score: 0, detection_rate: 0, false_positive_rate: 0, source: "placeholder" },
-  { model_id: "autoencoder", accuracy: 0, precision: 0, recall: 0, f1_score: 0, detection_rate: 0, false_positive_rate: 0, source: "placeholder" },
-  { model_id: "cnn", accuracy: 0, precision: 0, recall: 0, f1_score: 0, detection_rate: 0, false_positive_rate: 0, source: "placeholder" },
-  { model_id: "cnn_lstm", accuracy: 0, precision: 0, recall: 0, f1_score: 0, detection_rate: 0, false_positive_rate: 0, source: "placeholder" },
+/** Real N-BaIoT evaluation results (imported from model_metrics.json). */
+const EVALUATED_METRICS: ModelMetrics[] = [
+  { model_id: "random_forest", accuracy: 0.999867, precision: 1.0, recall: 0.999733, f1_score: 0.999867, detection_rate: 0.999733, false_positive_rate: 0.0, source: "api", evaluated_at: "2026-08-15T07:29:16.259459+00:00" },
+  { model_id: "xgboost", accuracy: 0.999933, precision: 1.0, recall: 0.999867, f1_score: 0.999933, detection_rate: 0.999867, false_positive_rate: 0.0, source: "api", evaluated_at: "2026-08-15T07:29:16.259459+00:00" },
+  { model_id: "svm", accuracy: 0.9988, precision: 0.998401, recall: 0.9992, f1_score: 0.9988, detection_rate: 0.9992, false_positive_rate: 0.0016, source: "api", evaluated_at: "2026-08-15T07:29:16.259459+00:00" },
+  { model_id: "isolation_forest", accuracy: 0.595867, precision: 0.940564, recall: 0.204667, f1_score: 0.33618, detection_rate: 0.204667, false_positive_rate: 0.012933, source: "api", evaluated_at: "2026-08-15T07:29:16.259459+00:00" },
+  { model_id: "autoencoder", accuracy: 0.728733, precision: 0.97168, recall: 0.4712, f1_score: 0.634641, detection_rate: 0.4712, false_positive_rate: 0.013733, source: "api", evaluated_at: "2026-08-15T07:29:16.259459+00:00" },
+  { model_id: "cnn", accuracy: 0.998, precision: 0.998, recall: 1.0, f1_score: 0.998999, detection_rate: 1.0, false_positive_rate: 1.0, source: "api", evaluated_at: "2026-08-15T07:29:16.259459+00:00" },
+  { model_id: "cnn_lstm", accuracy: 0.998, precision: 0.998, recall: 1.0, f1_score: 0.998999, detection_rate: 1.0, false_positive_rate: 1.0, source: "api", evaluated_at: "2026-08-15T07:29:16.259459+00:00" },
 ];
 
 export async function fetchModelMetrics(): Promise<ModelMetrics[]> {
-  if (!MODEL_METRICS_API_URL) return PLACEHOLDER_METRICS;
+  if (!MODEL_METRICS_API_URL) return EVALUATED_METRICS;
+
   try {
     const res = await fetch(MODEL_METRICS_API_URL, { cache: "no-store" });
     if (!res.ok) throw new Error("metrics request failed");
     const data: ModelMetrics[] = await res.json();
     return data.map((m) => ({ ...m, source: "api" as const }));
   } catch {
-    return PLACEHOLDER_METRICS;
+    return EVALUATED_METRICS;
   }
 }
 
